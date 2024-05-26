@@ -1,0 +1,300 @@
+Państwa:
+Afganistan
+Albania
+Algieria
+Andora
+Angola
+Anguilla
+Antarktyda
+Antigua i Barbuda
+Arabia Saudyjska
+Argentyna
+Armenia
+Aruba
+Australia
+Austria
+Azerbejdżan
+Bahamy
+Bahrajn
+Bangladesz
+Barbados
+Belgia
+Belize
+Benin
+Bermudy
+Bhutan
+Białoruś
+Boliwia
+Bonaire, Sint Eustatius i Saba
+Bośnia i Hercegowina
+Botswana
+Brazylia
+Brunei Darussalam
+Brytyjskie Terytorium Oceanu Indyjskiego
+Bułgaria
+Burkina Faso
+Burundi
+Ceuta
+Chile
+Chiny
+Curaçao
+Chorwacja
+Cypr
+Czad
+Czarnogóra
+Czechy
+Dania
+Dominika
+Dominikana
+Dżibuti
+Egipt
+Ekwador
+Erytrea
+Estonia
+Etiopia
+Falklandy
+Fidżi
+Filipiny
+Finlandia
+Francuskie Terytorium Południowe
+Francja
+Gabon
+Gambia
+Ghana
+Gibraltar
+Grecja
+Grenada
+Grenlandia
+Gruzja
+Guam
+Gujana
+Gwatemala
+Gwinea
+Gwinea Równikowa
+Gwinea-Bissau
+Haiti
+Hiszpania
+Honduras
+Hongkong
+Indie
+Indonezja
+Irak
+Iran
+Irlandia
+Islandia
+Izrael
+Jamajka
+Japonia
+Jemen
+Jordania
+Kajmany
+Kambodża
+Kamerun
+Kanada
+Katar
+Kazachstan
+Kenia
+Kirgistan
+Kiribati
+Kolumbia
+Komory
+Kongo, Republika Demokratyczna
+Koreańska Republika Ludowo-Demokratyczna
+Kosowo
+Kostaryka
+Kuba
+Kuwejt
+Laos
+Lesotho
+Liban
+Liberia
+Libia
+Liechtenstein
+Litwa
+Luksemburg
+Łotwa
+Macedonia Północna
+Madagaskar
+Majotta
+Makau
+Malawi
+Malediwy
+Malezja
+Mali
+Malta
+Mariany Północne
+Maroko
+Mauretania
+Mauritius
+Meksyk
+Melilla
+Mikronezja
+Minor (Powiernicze Wyspy Pacyfiku Stanów Zjednoczonych)
+Mołdawia
+Mongolia
+Montserrat
+Mozambik
+Myanmar (Burma)
+Namibia
+Nauru
+Nepal
+Niderlandy
+Niemcy
+Niger
+Nigeria
+Nikaragua
+Niue
+Norfolk
+Norwegia
+Nowa Kaledonia
+Nowa Zelandia
+Okupowane Terytorium Palestyny
+Oman
+Pakistan
+Palau
+Panama
+Papua Nowa Gwinea
+Paragwaj
+Peru
+Pitcairn
+Polinezja Francuska
+Polska
+Południowa Afryka
+Południowa Georgia i Południowe Wyspy Sandwich
+Portugalia
+Republika Korei
+Rep.Środkowoafrykańska
+Rosja
+Rwanda
+Sahara Zachodnia
+Saint Barthelemy
+Rumunia
+Salwador
+Samoa
+Samoa Amerykańskie
+San Marino
+Senegal
+Serbia
+Seszele
+Sierra Leone
+Singapur
+Suazi
+Słowacja
+Słowenia
+Somalia
+Sri Lanka
+St. Pierre i Miquelon
+St.Kitts i Nevis
+St.Lucia
+St.Vincent i Grenadyny
+Stany Zjednoczone Ameryki
+Sudan
+Sudan Południowy
+Surinam
+Syria
+Szwajcaria
+Szwecja
+Święta Helena
+Tadżykistan
+Tajlandia
+Tajwan
+Tanzania
+Togo
+Tokelau
+Tonga
+Trynidad i Tobago
+Tunezja
+Turcja
+Turkmenistan
+Wyspy Turks i Caicos
+Tuvalu
+Uganda
+Ukraina
+Urugwaj
+Uzbekistan
+Vanuatu
+Wallis i Futuna
+Watykan
+Wenezuela
+Węgry
+Wielka Brytania
+Wietnam
+Włochy
+Wschodni Timor
+Wybrzeże Kości Słoniowej
+Wyspa Bouveta
+Wyspa Bożego Narodzenia
+Wyspy Cooka
+Wyspy Dziewicze (USA)
+Wyspy Dziewicze (Wielka Brytania)
+Wyspy Heard i McDonald
+Wyspy Kokosowe (Keelinga)
+Wyspy Owcze
+Wyspy Marshalla
+Wyspy Salomona
+Wyspa Sint Maarten (część holenderska)
+Wyspy Świętego Tomasza i Książęca
+Zambia
+Zielony Przylądek
+Zimbabwe
+Zjednoczone Emiraty Arabskie
+
+Kontynenty:
+Afryka
+Ameryka Północna
+Ameryka Południowa
+Antarktyda
+Azja
+Europa
+
+Stany w USA:
+Alabama
+Alaska
+Arizona
+Arkansas
+Kalifornia
+Kolorado
+Connecticut
+Delaware
+Floryda
+Georgia
+Hawaje
+Idaho
+Illinois
+Indiana
+Iowa
+Kansas
+Kentucky
+Luizjana
+Maine
+Maryland
+Massachusetts
+Michigan
+Minnesota
+Missisipi
+Missouri
+Montana
+Nebraska
+Nevada
+New Hampshire
+New Jersey
+Nowy Meksyk
+Nowy Jork
+Karolina Północna
+Dakota Północna
+Ohio
+Oklahoma
+Oregon
+Pensylwania
+Rhode Island
+Karolina Południowa
+Dakota Południowa
+Tennessee
+Teksas
+Utah
+Vermont
+Wirginia
+Waszyngton
+Wirginia Zachodnia
+Wisconsin
+Wyoming

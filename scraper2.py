@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import textacy.extract
 import spacy
+import pycountry
 
 
 def scrape_links():
@@ -76,14 +77,47 @@ def get_page_text(url):
     return ""
 
 
-# Funkcja do wyciągania nazw państw z tekstu używając geograpy
+def find_country_name(word, country_dict):
+    prefix_length = 1
+    while prefix_length <= len(word):
+        prefix = word[:prefix_length].upper()
+        matches = [country for country in country_dict if country[:prefix_length].upper() == prefix]
+
+        if len(matches) == 1:
+            return matches[0]
+        elif len(matches) == 0:
+            break
+
+        prefix_length += 1
+
+    return None
+
+
+# Funkcja do wyciągania nazw państw z tekstu
 def extract_countries(text):
     try:
         # Użyjmy textacy do ekstrakcji nazw krajów
         nlp = spacy.load('pl_core_news_sm')
         doc = nlp(text)
-        countries = textacy.extract.entities(doc, include_types=None)
-        return [country.text for country in countries]
+        print(f"Rozpoznane byty: {[(ent.text, ent.label_) for ent in doc.ents]}")
+        country_names = [ent.text for ent in doc.ents if ent.label_ in ["geogName", "placeName"]]
+
+        # Wczytaj słownik krajów (można też go utworzyć ręcznie lub użyć innego źródła)
+        with open("countries.txt", "r", encoding="utf-8") as file:
+            country_dict = [line.strip() for line in file.readlines()]
+
+        normalized_countries = []
+        # Iteruj po rozpoznanych nazwach krajów
+        for name in country_names:
+            # Sprawdź, czy można znaleźć nazwę kraju na podstawie jej początkowych liter
+            country = find_country_name(name, country_dict)
+            if country:
+                normalized_countries.append(country)
+
+        return normalized_countries
+        # countries = textacy.extract.entities(doc, include_types=None)
+        # ct = [country.text for country in countries]
+        # return ct
     except Exception as e:
         print(f"Nieoczekiwany błąd: {e}")
         return []
