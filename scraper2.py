@@ -1,8 +1,8 @@
 import requests
-from bs4 import BeautifulSoup
-import textacy.extract
 import spacy
-import pycountry
+from bs4 import BeautifulSoup
+from py2neo import Node, Relationship, Graph
+import re
 
 
 def scrape_links():
@@ -77,6 +77,30 @@ def get_page_text(url):
     return ""
 
 
+# Funkcja pobierająca nazwe zwierzęcia do utworzenia relacji
+def get_rel_name(url):
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        print(f"Błąd połączenia - tekst. Status: {response.status_code}")
+        return True
+
+    response.encoding = response.apparent_encoding
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    h1 = soup.find('h1', class_='animal2__title page-title')
+
+    if h1:
+        # Pobierz tekst wewnątrz <h1>
+        animal_name = h1.get_text(strip=True)
+        # Usuń zawartość nawiasów wraz z nawiasami
+        animal_name = re.sub(r'\s*\([^)]*\)', '', animal_name)
+        print("Nazwa: "+str(animal_name))
+        return animal_name
+    else:
+        print("Nie znaleziono elementu <h1> z klasą 'animal2__title page-title'.")
+
+
 def find_country_name(word, country_dict):
     prefix_length = 1
     while prefix_length <= len(word):
@@ -115,27 +139,47 @@ def extract_countries(text):
                 normalized_countries.append(country)
 
         return normalized_countries
-        # countries = textacy.extract.entities(doc, include_types=None)
-        # ct = [country.text for country in countries]
-        # return ct
     except Exception as e:
         print(f"Nieoczekiwany błąd: {e}")
         return []
 
 
 # Główna funkcja
-def main(url):
+def nodes_create(url):
     text = get_page_text(url)
+    an_name = get_rel_name(url)
+    animal_node = graph.nodes.match("Zwierze", name=an_name).first()
+    # print("AN_NAME: "+str(an_name))
     if text:
         print(f"Analizowany tekst: {text}")
         found_countries = extract_countries(text)
-        print(found_countries)
+        # Tworzenie węzłów dla lokacji
+        for country in found_countries:
+            country_name = f"{country}"
+            country_node = graph.nodes.match("Lokacja", name=country_name).first()
+            if not country_node:
+                country_node = Node("Lokacja", name=country_name)
+                graph.create(country_node)
+                relationship_core = Relationship(country_node, "TO", core_node)
+                graph.create(relationship_core)
+                print(f"Created country node: {country}")
+            relationship_with_an = Relationship(animal_node, "ZAMIESZKUJE", country_node)
+            graph.create(relationship_with_an)
+            relationship_with_an2 = Relationship(country_node, "WYSTĘPUJE", animal_node)
+            graph.create(relationship_with_an2)
+            print(f"Created relations: {animal_node} - {country_node}")
     else:
         print("Nie znaleziono sekcji 'Występowanie' lub brak tekstu w <p>.")
 
 
 # Przykładowe użycie
 if __name__ == "__main__":
+    graph = Graph("bolt://localhost:7687", auth=("neo4j", "1q2w3e4r"))
+
+    core_name = "Lokacje"
+    core_node = Node("Lokacje", name=core_name)
+    graph.create(core_node)
+
     url_main = "https://www.ekologia.pl/atlas-zwierzat/"
     links = scrape_links()
 
@@ -143,6 +187,9 @@ if __name__ == "__main__":
         for i in range(1, 51):
             url_cat = f"{link}page/{i}/"
             urls = scrape_names(url_cat)
+            if isinstance(urls, bool):
+                continue  # Pomijamy iterację, jeśli urls jest wartością logiczną
             for url_name in urls:
                 print(url_name)
-                main(url_name)
+                if nodes_create(url_name):
+                    break
