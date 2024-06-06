@@ -174,7 +174,7 @@ def nodes_create(url):
 
 # Przykładowe użycie
 if __name__ == "__main__":
-    graph = Graph("bolt://localhost:7687", auth=("neo4j", "1q2w3e4r"))
+    graph = Graph("bolt://localhost:7687", auth=("neo4j", "")) # auth=("nazwa_użytkownika", "hasło")
 
     core_name = "Lokacje"
     core_node = Node("Lokacje", name=core_name)
