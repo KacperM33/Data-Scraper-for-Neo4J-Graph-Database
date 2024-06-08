@@ -120,13 +120,12 @@ def find_country_name(word, country_dict):
 # Funkcja do wyciągania nazw państw z tekstu
 def extract_countries(text):
     try:
-        # Użyjmy textacy do ekstrakcji nazw krajów
         nlp = spacy.load('pl_core_news_sm')
         doc = nlp(text)
         print(f"Rozpoznane byty: {[(ent.text, ent.label_) for ent in doc.ents]}")
         country_names = [ent.text for ent in doc.ents if ent.label_ in ["geogName", "placeName"]]
 
-        # Wczytaj słownik krajów (można też go utworzyć ręcznie lub użyć innego źródła)
+        # Wczytaj słownik krajów
         with open("countries.txt", "r", encoding="utf-8") as file:
             country_dict = [line.strip() for line in file.readlines()]
 
@@ -149,7 +148,6 @@ def nodes_create(url):
     text = get_page_text(url)
     an_name = get_rel_name(url)
     animal_node = graph.nodes.match("Zwierze", name=an_name).first()
-    # print("AN_NAME: "+str(an_name))
     if text:
         print(f"Analizowany tekst: {text}")
         found_countries = extract_countries(text)
