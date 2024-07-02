@@ -77,6 +77,46 @@ def get_page_text(url):
     return ""
 
 
+def get_animal_food(url):
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        print(f"Błąd połączenia - tekst. Status: {response.status_code}")
+        return True
+
+    response.encoding = response.apparent_encoding
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    section_header = soup.find(lambda tag: tag.name in ['div', 'h2'] and tag.get('id') == 'section-pokarm')
+
+    if section_header:
+        # Znalezienie następnego <p> po znalezionym <h2>
+        section_paragraph = section_header.find_next('p')
+        if section_paragraph:
+            return section_paragraph.get_text()
+    return ""
+
+
+def get_animal_apperance(url):
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        print(f"Błąd połączenia - tekst. Status: {response.status_code}")
+        return True
+
+    response.encoding = response.apparent_encoding
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    section_header = soup.find(lambda tag: tag.name in ['div', 'h2'] and tag.get('id') == 'section-wyglad')
+
+    if section_header:
+        # Znalezienie następnego <p> po znalezionym <h2>
+        section_paragraph = section_header.find_next('p')
+        if section_paragraph:
+            return section_paragraph.get_text()
+    return ""
+
+
 # Funkcja pobierająca nazwe zwierzęcia do utworzenia relacji
 def get_rel_name(url):
     response = requests.get(url)
@@ -147,6 +187,8 @@ def extract_countries(text):
 def nodes_create(url):
     text = get_page_text(url)
     an_name = get_rel_name(url)
+    food = get_animal_food(url)
+    apperance = get_animal_apperance(url)
     animal_node = graph.nodes.match("Zwierze", name=an_name).first()
     if text:
         print(f"Analizowany tekst: {text}")
@@ -158,21 +200,23 @@ def nodes_create(url):
             if not country_node:
                 country_node = Node("Lokacja", name=country_name)
                 graph.create(country_node)
-                relationship_core = Relationship(country_node, "TO", core_node)
+                relationship_core = Relationship(country_node, "TO_HIPONIM_OD", core_node)
                 graph.create(relationship_core)
                 print(f"Created country node: {country}")
-            relationship_with_an = Relationship(animal_node, "ZAMIESZKUJE", country_node)
+            relationship_with_an = Relationship(animal_node, "WYSTĘPUJE_W", country_node)
             graph.create(relationship_with_an)
-            relationship_with_an2 = Relationship(country_node, "WYSTĘPUJE", animal_node)
-            graph.create(relationship_with_an2)
             print(f"Created relations: {animal_node} - {country_node}")
+        if animal_node:
+            animal_node['food'] = food
+            animal_node['apperance'] = apperance
+            graph.push(animal_node)
     else:
         print("Nie znaleziono sekcji 'Występowanie' lub brak tekstu w <p>.")
 
 
 # Przykładowe użycie
 if __name__ == "__main__":
-    graph = Graph("bolt://localhost:7687", auth=("neo4j", "")) # auth=("nazwa_użytkownika", "hasło")
+    graph = Graph("bolt://localhost:7687", auth=("neo4j", "1q2w3e4r")) # auth=("nazwa_użytkownika", "hasło")
 
     core_name = "Lokacje"
     core_node = Node("Lokacje", name=core_name)

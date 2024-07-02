@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from py2neo import Graph, Node, Relationship
+from itertools import zip_longest
 
 
 def scrape_links():
@@ -58,6 +59,10 @@ def scrape_animal_data(url2):
     for div in divs:
         titles.extend(div.find_all('a', class_='posts__item__title'))
 
+    latins = []
+    for div_latin in divs:
+        latins.extend(div_latin.find_all('div', class_='posts__item__latin'))
+
     if not titles:
         print("Brak nazw w wybranych divach - zwierzęta.")
         return True
@@ -70,13 +75,14 @@ def scrape_animal_data(url2):
     if not category_node:
         category_node = Node("Kategoria", name=category_name)
         graph.create(category_node)
-        relationship_core = Relationship(category_node, "SĄ", core_node)
+        relationship_core = Relationship(category_node, "SĄ_HIPONIMEM_OD", core_node)
         graph.create(relationship_core)
         print(f"Created category node: {category}")
 
     # Tworzenie węzłów dla każdego zwierzęcia i jego podkategorii
-    for title in titles:
+    for title, latin in zip_longest(titles, latins, fillvalue="Brak danych"):
         animal_name = title.get_text(strip=True)
+        animal_name_latin = latin.get_text(strip=True)
         words = animal_name.split()
 
         if len(words) > 1:
@@ -88,28 +94,30 @@ def scrape_animal_data(url2):
                 # Tworzenie nowego węzła podkategorii
                 subcategory_node = Node("Podkategoria", name=subcategory_name)
                 graph.create(subcategory_node)
-                relationship = Relationship(subcategory_node, "NALEŻY_DO", category_node)
+                relationship = Relationship(subcategory_node, "NALEŻY_DO_KATEGORII", category_node)
                 graph.create(relationship)
+                relationship2 = Relationship(category_node, "ZAWIERA_PODKATEGORIE", subcategory_node)
+                graph.create(relationship2)
                 print(f"Created subcategory node: {subcategory_name}")
 
             # Tworzenie węzła dla zwierzęcia i połączenie z podkategorią
-            animal_node = Node("Zwierze", name=animal_name)
+            animal_node = Node("Zwierze", name=animal_name, latin_name=animal_name_latin)
             graph.create(animal_node)
-            relationship = Relationship(animal_node, "JEST", subcategory_node)
+            relationship = Relationship(animal_node, "JEST_PODKATEGORII", subcategory_node)
             graph.create(relationship)
             print(f"Created node for animal: {animal_name} and linked to subcategory: {subcategory_name}")
 
         else:
             # Jeżeli nazwa składa się z jednego wyrazu, tworzymy tylko węzeł zwierzęcia
-            animal_node = Node("Zwierze", name=animal_name)
+            animal_node = Node("Zwierze", name=animal_name, latin_name=animal_name_latin)
             graph.create(animal_node)
-            relationship = Relationship(animal_node, "JEST", category_node)
+            relationship = Relationship(animal_node, "JEST_KATEGORII", category_node)
             graph.create(relationship)
             print(f"Created node for animal: {animal_name}")
 
 
 if __name__ == "__main__":
-    graph = Graph("bolt://localhost:7687", auth=("neo4j", "")) # auth=("nazwa_użytkownika", "hasło")
+    graph = Graph("bolt://localhost:7687", auth=("neo4j", "1q2w3e4r")) # auth=("nazwa_użytkownika", "hasło")
 
     core_name = "Zwierzęta"
     core_node = Node("Zwierzęta", name=core_name)
