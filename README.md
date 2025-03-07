@@ -1,15 +1,17 @@
-# Projekt: Sieci Semantyczne
+# ✍🏿 Data Scraper for Neo4J Graph Database
 
-## Opis Projektu
+This project was developed to scrape data from a web application about animals and store it as nodes and relationships between them in a Neo4J graph database.
 
-Ten projekt został wykonany w ramach przedmiotu **Sieci Semantyczne**. Jego celem było stworzenie scrapera danych ze strony internetowej oraz utworzenie na podstawie pobranych danych węzłów w bazie danych Neo4j.
+## 📚 About This Project
 
-## Funkcjonalności
+This project was completed as the final assignment for the *Semantic Networks* course during my engineering studies.
 
-- **Scraper danych:** Skrypt do pobierania danych ze strony internetowej.
-- **Integracja z Neo4j:** Tworzenie węzłów w bazie danych Neo4j na podstawie zebranych danych.
+## 🧰 Development Tools
 
-## Technologie
+- Python 3.11
+- [Neo4J](https://neo4j.com) (for graph database)
 
-- **Python:** Główny język programowania użyty do stworzenia scrapera.
-- **Neo4j:** Grafowa baza danych używana do przechowywania i analizy danych.
+## ⚙️ Functionality
+
+- **Data scraping:** A script designed to collect data from a web application.
+- **Integration with Neo4J:** Creates nodes and relationships between them in a Neo4J graph database.
